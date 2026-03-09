@@ -1,0 +1,40 @@
+{
+  "name": "Solionaire · Lv.2 · Subway Ad Panel",
+  "symbol": "SOLI",
+  "description": "A premium subway ad panel in Manhattan — seen by millions daily, owned by few.",
+  "image": "https://raw.githubusercontent.com/IM-THAT/sol-lionaire-mobile/main/assets/images/properties/ny_2.png",
+  "external_url": "https://solionaire.com",
+  "attributes": [
+    {
+      "trait_type": "Level",
+      "value": 2
+    },
+    {
+      "trait_type": "City",
+      "value": "New York"
+    },
+    {
+      "trait_type": "District",
+      "value": "Plaza"
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Solionaire"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://raw.githubusercontent.com/IM-THAT/sol-lionaire-mobile/main/assets/images/properties/ny_2.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "CWPm9Uvva6ckTjwSy4L9ShDHgvr4BeEfCBZXtD1yLpjE",
+        "share": 100
+      }
+    ]
+  }
+}

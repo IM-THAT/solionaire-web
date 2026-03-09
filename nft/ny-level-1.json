@@ -1,0 +1,40 @@
+{
+  "name": "Solionaire · Lv.1 · Times Square Mini Neon Slot",
+  "symbol": "SOLI",
+  "description": "Your name on a Times Square neon sign — 24-hour rental, proof of presence in the capital of the world.",
+  "image": "https://raw.githubusercontent.com/IM-THAT/sol-lionaire-mobile/main/assets/images/properties/ny_1.png",
+  "external_url": "https://solionaire.com",
+  "attributes": [
+    {
+      "trait_type": "Level",
+      "value": 1
+    },
+    {
+      "trait_type": "City",
+      "value": "New York"
+    },
+    {
+      "trait_type": "District",
+      "value": "Plaza"
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Solionaire"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://raw.githubusercontent.com/IM-THAT/sol-lionaire-mobile/main/assets/images/properties/ny_1.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "CWPm9Uvva6ckTjwSy4L9ShDHgvr4BeEfCBZXtD1yLpjE",
+        "share": 100
+      }
+    ]
+  }
+}

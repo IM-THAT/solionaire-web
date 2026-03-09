@@ -1,0 +1,40 @@
+{
+  "name": "Solionaire · Lv.5 · JBR Beachfront Gold Studio",
+  "symbol": "SOLI",
+  "description": "A beachfront studio on The Walk at JBR — Jumeirah Beach Residence, Dubai's golden shoreline.",
+  "image": "https://raw.githubusercontent.com/IM-THAT/sol-lionaire-mobile/main/assets/images/properties/db_5.png",
+  "external_url": "https://solionaire.com",
+  "attributes": [
+    {
+      "trait_type": "Level",
+      "value": 5
+    },
+    {
+      "trait_type": "City",
+      "value": "Dubai"
+    },
+    {
+      "trait_type": "District",
+      "value": "Avenue"
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Solionaire"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://raw.githubusercontent.com/IM-THAT/sol-lionaire-mobile/main/assets/images/properties/db_5.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "CWPm9Uvva6ckTjwSy4L9ShDHgvr4BeEfCBZXtD1yLpjE",
+        "share": 100
+      }
+    ]
+  }
+}

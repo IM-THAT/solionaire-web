@@ -1,0 +1,40 @@
+{
+  "name": "Solionaire · Lv.4 · Hell's Kitchen Private Parking Spot",
+  "symbol": "SOLI",
+  "description": "Premium deeded parking in Hell's Kitchen — Manhattan real estate at its most exclusive street level.",
+  "image": "https://raw.githubusercontent.com/IM-THAT/sol-lionaire-mobile/main/assets/images/properties/ny_4.png",
+  "external_url": "https://solionaire.com",
+  "attributes": [
+    {
+      "trait_type": "Level",
+      "value": 4
+    },
+    {
+      "trait_type": "City",
+      "value": "New York"
+    },
+    {
+      "trait_type": "District",
+      "value": "Avenue"
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Solionaire"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://raw.githubusercontent.com/IM-THAT/sol-lionaire-mobile/main/assets/images/properties/ny_4.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "CWPm9Uvva6ckTjwSy4L9ShDHgvr4BeEfCBZXtD1yLpjE",
+        "share": 100
+      }
+    ]
+  }
+}

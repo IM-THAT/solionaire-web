@@ -1,0 +1,40 @@
+{
+  "name": "Solionaire · Lv.6 · Chelsea High-Rise Gold 1-Bed Condo",
+  "symbol": "SOLI",
+  "description": "Luxury high-rise 1-bedroom in Chelsea — the gallery district's most coveted address.",
+  "image": "https://raw.githubusercontent.com/IM-THAT/sol-lionaire-mobile/main/assets/images/properties/ny_6.png",
+  "external_url": "https://solionaire.com",
+  "attributes": [
+    {
+      "trait_type": "Level",
+      "value": 6
+    },
+    {
+      "trait_type": "City",
+      "value": "New York"
+    },
+    {
+      "trait_type": "District",
+      "value": "Avenue"
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Solionaire"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://raw.githubusercontent.com/IM-THAT/sol-lionaire-mobile/main/assets/images/properties/ny_6.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "CWPm9Uvva6ckTjwSy4L9ShDHgvr4BeEfCBZXtD1yLpjE",
+        "share": 100
+      }
+    ]
+  }
+}

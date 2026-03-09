@@ -1,0 +1,40 @@
+{
+  "name": "Solionaire · Lv.6 · Palm Jumeirah Gold Sky 1-Bed",
+  "symbol": "SOLI",
+  "description": "A sky-high 1-bedroom on the iconic Palm Jumeirah — the world's most famous man-made island.",
+  "image": "https://raw.githubusercontent.com/IM-THAT/sol-lionaire-mobile/main/assets/images/properties/db_6.png",
+  "external_url": "https://solionaire.com",
+  "attributes": [
+    {
+      "trait_type": "Level",
+      "value": 6
+    },
+    {
+      "trait_type": "City",
+      "value": "Dubai"
+    },
+    {
+      "trait_type": "District",
+      "value": "Avenue"
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Solionaire"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://raw.githubusercontent.com/IM-THAT/sol-lionaire-mobile/main/assets/images/properties/db_6.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "CWPm9Uvva6ckTjwSy4L9ShDHgvr4BeEfCBZXtD1yLpjE",
+        "share": 100
+      }
+    ]
+  }
+}
