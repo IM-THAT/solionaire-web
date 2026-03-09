@@ -370,6 +370,85 @@
     .next .roadmap-items li::before { color: #bb77ff; }
     .later .roadmap-items li::before { color: var(--sol-mint); }
 
+    /* ── LEADERBOARD ── */
+    .lb-section { background: #050505; }
+    .lb-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 16px;
+    }
+    .lb-col {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .lb-col-header {
+      padding: 16px 20px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .lb-col-icon { font-size: 20px; }
+    .lb-col-info {}
+    .lb-col-name { font-size: 14px; font-weight: 700; color: var(--white); }
+    .lb-col-sub  { font-size: 11px; color: var(--gray); margin-top: 2px; }
+    .lb-rows { padding: 8px 0; min-height: 120px; }
+    .lb-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      border-bottom: 1px solid #111;
+      transition: background 0.15s;
+    }
+    .lb-row:last-child { border-bottom: none; }
+    .lb-row:hover { background: rgba(255,255,255,0.02); }
+    .lb-rank { font-size: 12px; color: var(--gray); font-weight: 700; width: 18px; text-align: center; }
+    .lb-rank.top1 { color: var(--gold); }
+    .lb-rank.top2 { color: #aaa; }
+    .lb-rank.top3 { color: #cd7f32; }
+    .lb-info { flex: 1; min-width: 0; }
+    .lb-addr { font-size: 12px; color: var(--white); font-weight: 600; font-family: monospace; }
+    .lb-detail { font-size: 11px; color: var(--gray); margin-top: 2px; }
+    .lb-level {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 6px;
+      padding: 3px 8px;
+      white-space: nowrap;
+    }
+    .lb-empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+      color: var(--gray);
+      font-size: 13px;
+      font-style: italic;
+    }
+    .lb-status {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 12px;
+      color: var(--gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .lb-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--sol-mint);
+      animation: pulse 2s infinite;
+    }
+
     /* ── FOOTER ── */
     footer {
       border-top: 1px solid var(--border);
@@ -409,6 +488,7 @@
       .what-grid { grid-template-columns: 1fr; }
       .steps { grid-template-columns: 1fr; }
       .roadmap-grid { grid-template-columns: 1fr; }
+      .lb-grid { grid-template-columns: 1fr; }
       .phone-mockup { margin-bottom: 40px; }
     }
   </style>
@@ -424,6 +504,7 @@
     <div class="nav-links">
       <a href="#what">About</a>
       <a href="#how">How it works</a>
+      <a href="#leaderboard">Leaderboard</a>
       <a href="#roadmap">Roadmap</a>
       <a href="https://github.com/IM-THAT/sol-lionaire-mobile" target="_blank">GitHub</a>
     </div>
@@ -522,6 +603,54 @@
     </div>
   </section>
 
+  <!-- LEADERBOARD -->
+  <section id="leaderboard" class="lb-section">
+    <div class="container">
+      <div style="text-align:center; margin-bottom:48px;">
+        <div class="section-label">Live on-chain · Solana Mainnet</div>
+        <h2 class="section-title">The District Leaderboard</h2>
+        <p class="section-sub" style="margin:0 auto;">Top territory holders across all districts, pulled live from Solana via Helius.</p>
+      </div>
+      <div class="lb-grid" id="lb-grid">
+        <!-- JS-rendered -->
+        <div class="lb-col">
+          <div class="lb-col-header">
+            <span class="lb-col-icon">👑</span>
+            <div class="lb-col-info">
+              <div class="lb-col-name">The High Table</div>
+              <div class="lb-col-sub">VVIP · Level 8–10</div>
+            </div>
+          </div>
+          <div class="lb-rows" id="lb-high_table"><div class="lb-empty">Loading…</div></div>
+        </div>
+        <div class="lb-col">
+          <div class="lb-col-header">
+            <span class="lb-col-icon">🏛️</span>
+            <div class="lb-col-info">
+              <div class="lb-col-name">The Avenue</div>
+              <div class="lb-col-sub">PREMIUM · Level 4–7</div>
+            </div>
+          </div>
+          <div class="lb-rows" id="lb-avenue"><div class="lb-empty">Loading…</div></div>
+        </div>
+        <div class="lb-col">
+          <div class="lb-col-header">
+            <span class="lb-col-icon">🌆</span>
+            <div class="lb-col-info">
+              <div class="lb-col-name">The Plaza</div>
+              <div class="lb-col-sub">OPEN · Level 1–3</div>
+            </div>
+          </div>
+          <div class="lb-rows" id="lb-plaza"><div class="lb-empty">Loading…</div></div>
+        </div>
+      </div>
+      <div class="lb-status" id="lb-status">
+        <div class="lb-dot"></div>
+        <span>Fetching from Solana…</span>
+      </div>
+    </div>
+  </section>
+
   <!-- ROADMAP -->
   <section id="roadmap">
     <div class="container">
@@ -595,5 +724,154 @@
     <div class="footer-copy">© 2026 Solionaire · Built on Solana</div>
   </footer>
 
+  <script>
+    // ── Leaderboard: fetch Solionaire on-chain claims via Helius ─────────────
+    const HELIUS_KEY   = '1ce0f97b-52f2-4771-a099-581cb2783de9';
+    const MEMO_PROGRAM = 'MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr';
+    const HELIUS_BASE  = `https://api.helius.xyz/v0/addresses/${MEMO_PROGRAM}/transactions?api-key=${HELIUS_KEY}&limit=100`;
+
+    const B58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+
+    function decodeBase58(str) {
+      try {
+        let num = 0n;
+        for (const c of str) {
+          const idx = B58.indexOf(c);
+          if (idx < 0) return null;
+          num = num * 58n + BigInt(idx);
+        }
+        const hex    = num.toString(16);
+        const padded = hex.length % 2 ? '0' + hex : hex;
+        const bytes  = padded.match(/.{2}/g).map(h => parseInt(h, 16));
+        let zeros = 0;
+        for (const c of str) { if (c === '1') zeros++; else break; }
+        const all = [...Array(zeros).fill(0), ...bytes];
+        return new TextDecoder('utf-8').decode(new Uint8Array(all));
+      } catch { return null; }
+    }
+
+    function extractMemo(tx) {
+      const memoIx = (tx.instructions || []).find(ix => ix.programId === MEMO_PROGRAM);
+      if (memoIx?.data) {
+        const d = decodeBase58(memoIx.data);
+        if (d) return d;
+      }
+      const logs = tx.meta?.logMessages || tx.logs || [];
+      for (const log of logs) {
+        const m = log.match(/Program log: Memo \(len \d+\): "(.+)"/s);
+        if (m) return m[1];
+      }
+      return null;
+    }
+
+    function getTierGroup(level) {
+      if (level >= 8) return 'high_table';
+      if (level >= 4) return 'avenue';
+      if (level >= 1) return 'plaza';
+      return null;
+    }
+
+    function shortAddr(a) {
+      return a ? a.slice(0, 4) + '…' + a.slice(-4) : '';
+    }
+
+    async function fetchPage(before) {
+      const url = before ? HELIUS_BASE + '&before=' + before : HELIUS_BASE;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Helius ' + res.status);
+      return res.json();
+    }
+
+    async function fetchLeaderboard() {
+      const claims = [];
+      let before;
+      for (let page = 0; page < 10; page++) {
+        const txs = await fetchPage(before);
+        if (!txs || !txs.length) break;
+        for (const tx of txs) {
+          try {
+            const memo = extractMemo(tx);
+            if (!memo || !memo.includes('Solionaire')) continue;
+            const parsed = JSON.parse(memo);
+            if (parsed.app !== 'Solionaire') continue;
+            const wallet    = tx.feePayer;
+            const tierGroup = getTierGroup(parsed.level);
+            if (!wallet || !tierGroup) continue;
+            claims.push({
+              wallet, tierGroup,
+              level: parsed.level,
+              name:  parsed.name  || '',
+              city:  parsed.city  || '',
+              ts:    parsed.ts    || 0,
+            });
+          } catch {}
+        }
+        before = txs[txs.length - 1]?.signature;
+        if (!before || txs.length < 100) break;
+      }
+
+      // Deduplicate: keep highest level per wallet
+      const best = {};
+      for (const c of claims) {
+        if (!best[c.wallet] || c.level > best[c.wallet].level) best[c.wallet] = c;
+      }
+
+      const result = { plaza: [], avenue: [], high_table: [] };
+      for (const e of Object.values(best)) result[e.tierGroup].push(e);
+      for (const k of Object.keys(result)) result[k].sort((a,b) => b.level - a.level || b.ts - a.ts);
+      return result;
+    }
+
+    function renderRows(containerId, entries) {
+      const el = document.getElementById(containerId);
+      if (!el) return;
+      if (!entries || !entries.length) {
+        el.innerHTML = '<div class="lb-empty">No claims yet — be the first!</div>';
+        return;
+      }
+      el.innerHTML = entries.slice(0, 5).map((e, i) => {
+        const rankClass = i === 0 ? 'top1' : i === 1 ? 'top2' : i === 2 ? 'top3' : '';
+        const medal     = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
+        const cityLabel = e.city === 'dubai' ? 'Dubai' : e.city === 'manhattan' ? 'New York' : e.city;
+        return `
+          <div class="lb-row">
+            <div class="lb-rank ${rankClass}">${medal}</div>
+            <div class="lb-info">
+              <div class="lb-addr">${shortAddr(e.wallet)}</div>
+              <div class="lb-detail">${e.name}${cityLabel ? ' · ' + cityLabel : ''}</div>
+            </div>
+            <div class="lb-level">Lv.${e.level}</div>
+          </div>`;
+      }).join('');
+    }
+
+    function setStatus(msg) {
+      const el = document.getElementById('lb-status');
+      if (el) el.querySelector('span').textContent = msg;
+    }
+
+    async function loadLeaderboard() {
+      try {
+        const data = await fetchLeaderboard();
+        renderRows('lb-high_table', data.high_table);
+        renderRows('lb-avenue',     data.avenue);
+        renderRows('lb-plaza',      data.plaza);
+        const total = data.high_table.length + data.avenue.length + data.plaza.length;
+        const now   = new Date().toLocaleTimeString();
+        setStatus(`${total} claimers · Updated ${now}`);
+      } catch (e) {
+        console.error('[lb]', e);
+        ['lb-high_table','lb-avenue','lb-plaza'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.innerHTML = '<div class="lb-empty">Could not load — try again soon.</div>';
+        });
+        setStatus('Fetch failed · Retrying in 60s');
+      }
+    }
+
+    // Initial load + auto-refresh every 60s
+    loadLeaderboard();
+    setInterval(loadLeaderboard, 60_000);
+  </script>
 </body>
 </html>
