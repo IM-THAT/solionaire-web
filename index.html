@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solionaire — Own the Block on Solana</title>
+  <meta name="description" content="A Solana Mobile app where your SOL balance becomes your empire. Claim territories, level up, and prove your wealth on-chain." />
+  <meta property="og:title" content="Solionaire — Own the Block on Solana" />
+  <meta property="og:description" content="A Solana Mobile app where your SOL balance becomes your empire." />
+  <meta property="og:image" content="./app_icon.png" />
+  <link rel="icon" href="./app_icon.png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #000000;
+      --gold: #C9A84C;
+      --gold-light: #F0D080;
+      --gold-deep: #8B6914;
+      --sol-purple: #9945FF;
+      --sol-mint: #14F195;
+      --white: #ffffff;
+      --gray: #888888;
+      --card-bg: #0d0d0d;
+      --border: #1e1e1e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(153,69,255,0.15) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(153,69,255,0.15);
+      border: 1px solid rgba(153,69,255,0.4);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: var(--sol-mint);
+      margin-bottom: 32px;
+    }
+    .hero h1 {
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-deep) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 24px;
+      line-height: 1.1;
+    }
+    .hero p {
+      font-size: clamp(16px, 2.5vw, 22px);
+      color: #aaaaaa;
+      max-width: 560px;
+      margin-bottom: 48px;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--gold-deep), var(--gold), var(--gold-light));
+      color: #000;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--gray); transform: translateY(-2px); }
+
+    .hero-seeker {
+      margin-top: 64px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gray);
+      font-size: 13px;
+    }
+    .seeker-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--sol-mint);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 100px 24px; }
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      color: var(--gray);
+      font-size: 16px;
+      max-width: 560px;
+      margin-bottom: 64px;
+    }
+    .container { max-width: 1080px; margin: 0 auto; }
+
+    /* ── WHAT IS ── */
+    .what-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .what-text p { color: #aaaaaa; font-size: 16px; margin-bottom: 20px; }
+    .what-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .stat-label { font-size: 12px; color: var(--gray); margin-top: 4px; }
+
+    .phone-mockup {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      padding: 16px;
+      max-width: 280px;
+      margin: 0 auto;
+      box-shadow: 0 0 80px rgba(201,168,76,0.1);
+    }
+    .phone-screen {
+      background: #050505;
+      border-radius: 20px;
+      padding: 24px 20px;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    .phone-screen img { width: 72px; height: 72px; border-radius: 16px; }
+    .phone-app-name {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+    }
+    .phone-tier {
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 12px;
+      color: var(--gold-light);
+      letter-spacing: 0.08em;
+    }
+    .phone-price {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--white);
+    }
+    .phone-price span { font-size: 16px; color: var(--gray); }
+    .phone-bar {
+      width: 100%;
+      background: #1a1a1a;
+      border-radius: 8px;
+      height: 6px;
+      overflow: hidden;
+    }
+    .phone-bar-fill {
+      height: 100%;
+      width: 65%;
+      background: linear-gradient(90deg, var(--gold-deep), var(--gold));
+      border-radius: 8px;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-section { background: #050505; }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      position: relative;
+    }
+    .step-num {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--border);
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+    .step-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+    .step-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+    .step-desc { color: var(--gray); font-size: 14px; line-height: 1.7; }
+
+    /* ── ROADMAP ── */
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .roadmap-card {
+      border-radius: 16px;
+      padding: 32px;
+      border: 1px solid var(--border);
+    }
+    .roadmap-card.now {
+      background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.02));
+      border-color: rgba(201,168,76,0.3);
+    }
+    .roadmap-card.next {
+      background: linear-gradient(135deg, rgba(153,69,255,0.08), rgba(153,69,255,0.02));
+      border-color: rgba(153,69,255,0.3);
+    }
+    .roadmap-card.later { background: var(--card-bg); }
+    .roadmap-tag {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+    .now .roadmap-tag { background: rgba(201,168,76,0.2); color: var(--gold); }
+    .next .roadmap-tag { background: rgba(153,69,255,0.2); color: #bb77ff; }
+    .later .roadmap-tag { background: rgba(20,241,149,0.1); color: var(--sol-mint); }
+    .roadmap-version {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .now .roadmap-version { color: var(--gold); }
+    .next .roadmap-version { color: #bb77ff; }
+    .later .roadmap-version { color: var(--sol-mint); }
+    .roadmap-subtitle {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 24px;
+    }
+    .roadmap-items { list-style: none; }
+    .roadmap-items li {
+      font-size: 14px;
+      color: #bbbbbb;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .roadmap-items li:last-child { border-bottom: none; }
+    .roadmap-items li::before { content: '·'; color: var(--gold); font-size: 18px; }
+    .next .roadmap-items li::before { color: #bb77ff; }
+    .later .roadmap-items li::before { color: var(--sol-mint); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 24px;
+      text-align: center;
+    }
+    .footer-logo {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { color: #444; font-size: 12px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .what-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .roadmap-grid { grid-template-columns: 1fr; }
+      .phone-mockup { margin-bottom: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">
+      <img src="./app_icon.png" alt="Solionaire" />
+      SOLIONAIRE
+    </a>
+    <div class="nav-links">
+      <a href="#what">About</a>
+      <a href="#how">How it works</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="https://github.com/IM-THAT/sol-lionaire-mobile" target="_blank">GitHub</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-badge">⚡ Built for Solana Seeker · Mainnet Live</div>
+    <h1>Own the Block.<br/>On Solana.</h1>
+    <p>Your SOL balance is your empire. Claim territories in NYC and Dubai, level up, and prove your wealth on-chain.</p>
+    <div class="hero-buttons">
+      <a class="btn-primary" href="https://github.com/IM-THAT/sol-lionaire-mobile/releases" target="_blank">
+        ⬇ Download APK
+      </a>
+      <a class="btn-secondary" href="https://youtu.be/ZH7GwdCHsPk" target="_blank">
+        ▶ Watch Demo
+      </a>
+    </div>
+    <div class="hero-seeker">
+      <div class="seeker-dot"></div>
+      Optimized for Solana Seeker · Android
+    </div>
+  </section>
+
+  <!-- WHAT IS -->
+  <section id="what">
+    <div class="container">
+      <div class="what-grid">
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <img src="./app_icon.png" alt="App Icon" />
+            <div class="phone-app-name">SOLIONAIRE</div>
+            <div class="phone-tier">THE PLAZA · LVL 2</div>
+            <div class="phone-price">$2,840 <span>USD</span></div>
+            <div style="width:100%; text-align:left; font-size:11px; color:#555; margin-top:4px;">LUSTRE GAUGE</div>
+            <div class="phone-bar"><div class="phone-bar-fill"></div></div>
+            <div style="font-size:12px; color:#666; margin-top:8px;">🔥 3-day streak · Top 60%</div>
+          </div>
+        </div>
+        <div class="what-text">
+          <div class="section-label">What is Solionaire</div>
+          <h2 class="section-title">Your wallet.<br/>Your empire.</h2>
+          <p>Solionaire is a Solana Mobile app that turns your SOL holdings into a real estate empire. The more SOL you hold, the higher your tier — from street-level hustler to penthouse elite.</p>
+          <p>Claim territories on-chain with a Memo transaction. Build your daily streak to unlock Midas Touch. Rise through 10 levels across New York and Dubai.</p>
+          <div class="what-stats">
+            <div class="stat-card">
+              <div class="stat-value">10</div>
+              <div class="stat-label">Property Tiers</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">2</div>
+              <div class="stat-label">Cities</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">7</div>
+              <div class="stat-label">Day Midas Streak</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">On-chain</div>
+              <div class="stat-label">Territory Claims</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="how-section">
+    <div class="container">
+      <div style="text-align:center; margin-bottom:64px;">
+        <div class="section-label">How it works</div>
+        <h2 class="section-title">Three steps to your empire</h2>
+      </div>
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <div class="step-icon">🔗</div>
+          <div class="step-title">Connect Your Wallet</div>
+          <div class="step-desc">Link your Solana wallet via Mobile Wallet Adapter or Seed Vault. Your SOL balance determines your tier automatically.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <div class="step-icon"><img src="./db_10.png" alt="Build Your Empire" style="width:40px;height:40px;object-fit:cover;border-radius:8px;" /></div>
+          <div class="step-title">Build Your Empire</div>
+          <div class="step-desc">Swipe daily to collect Lustre points and maintain your streak. Hit 7 days to unlock Midas Touch — the golden multiplier.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <div class="step-icon">⛓️</div>
+          <div class="step-title">Claim Territory On-Chain</div>
+          <div class="step-desc">Sign a Memo transaction to permanently record your territory claim on Solana mainnet. Your proof of empire, forever on-chain.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section id="roadmap">
+    <div class="container">
+      <div style="text-align:center; margin-bottom:64px;">
+        <div class="section-label">Roadmap</div>
+        <h2 class="section-title">Where we're going</h2>
+      </div>
+      <div class="roadmap-grid">
+        <div class="roadmap-card now">
+          <div class="roadmap-tag">✅ NOW</div>
+          <div class="roadmap-version">v0.5</div>
+          <div class="roadmap-subtitle">Core Experience</div>
+          <ul class="roadmap-items">
+            <li>MWA + Seed Vault connect</li>
+            <li>10-tier property system</li>
+            <li>Live SOL/USD price (Pyth)</li>
+            <li>Lustre daily streak</li>
+            <li>On-chain Territory Claim</li>
+            <li>Seeker APK</li>
+          </ul>
+        </div>
+        <div class="roadmap-card next">
+          <div class="roadmap-tag">🔜 NEXT</div>
+          <div class="roadmap-version">v1.0</div>
+          <div class="roadmap-subtitle">Stickiness & Social</div>
+          <ul class="roadmap-items">
+            <li>Jupiter v6 in-app swap</li>
+            <li>District leaderboard (Helius)</li>
+            <li>Community feed & chat</li>
+            <li>Farcaster Frame share</li>
+            <li>Friend leaderboard</li>
+          </ul>
+        </div>
+        <div class="roadmap-card later">
+          <div class="roadmap-tag">🔮 LATER</div>
+          <div class="roadmap-version">v2.0</div>
+          <div class="roadmap-subtitle">Expansion</div>
+          <ul class="roadmap-items">
+            <li>Tokyo, London city modules</li>
+            <li>NFT property deeds on-chain</li>
+            <li>Global Seeker leaderboard</li>
+            <li>Discord tier-gated community</li>
+            <li>Community governance</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">SOLIONAIRE</div>
+    <div class="footer-links">
+      <a href="https://github.com/IM-THAT/sol-lionaire-mobile" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="https://x.com/solionaire_" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        @solionaire_
+      </a>
+      <a href="https://youtu.be/ZH7GwdCHsPk" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 00.5 6.19C0 8.04 0 12 0 12s0 3.96.5 5.81a3.02 3.02 0 002.12 2.14C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.55a3.02 3.02 0 002.12-2.14C24 15.96 24 12 24 12s0-3.96-.5-5.81zM9.75 15.52V8.48L15.5 12l-5.75 3.52z"/></svg>
+        Demo Video
+      </a>
+      <a href="https://linkedin.com/in/minjileesol" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zm1.78 13.02H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+    <div class="footer-copy">© 2026 Solionaire · Built on Solana</div>
+  </footer>
+
+</body>
+</html>
